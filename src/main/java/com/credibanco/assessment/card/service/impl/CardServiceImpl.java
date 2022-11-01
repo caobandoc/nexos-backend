@@ -3,7 +3,8 @@ package com.credibanco.assessment.card.service.impl;
 import com.credibanco.assessment.card.constants.MessageResponse;
 import com.credibanco.assessment.card.constants.StateCard;
 import com.credibanco.assessment.card.dto.CardCreateDto;
-import com.credibanco.assessment.card.dto.CardEnroledDto;
+import com.credibanco.assessment.card.dto.CardRequestDto;
+import com.credibanco.assessment.card.dto.ResponseCardDto;
 import com.credibanco.assessment.card.dto.ResponseDto;
 import com.credibanco.assessment.card.exceptions.CardFoundException;
 import com.credibanco.assessment.card.exceptions.CardNotFoundException;
@@ -35,16 +36,31 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public ResponseDto enroledCard(CardEnroledDto cardEnroledDto) {
-        Card card = cardRepository.findByPan(cardEnroledDto.getPan())
-                .orElseThrow(() -> new CardNotFoundException(MessageResponse.TARJETA_NO_EXISTE.getMessage(), cardEnroledDto.getPan()));
-        if(!card.getCvv().equals(cardEnroledDto.getCvv())) {
-            throw new InvalidCVVException(MessageResponse.VALIDACION_INVALIDA.getMessage(), cardEnroledDto.getPan());
+    public ResponseDto enroledCard(CardRequestDto cardRequestDto) {
+        Card card = cardRepository.findByPan(cardRequestDto.getPan())
+                .orElseThrow(() -> new CardNotFoundException(MessageResponse.TARJETA_NO_EXISTE.getMessage(), cardRequestDto.getPan()));
+        if(!card.getCvv().equals(cardRequestDto.getCvv())) {
+            throw new InvalidCVVException(MessageResponse.VALIDACION_INVALIDA.getMessage(), cardRequestDto.getPan());
         }
         card.setEstado(StateCard.ENROLADA);
         cardRepository.save(card);
         return CardUtils.buildResponseDto("00",MessageResponse.EXITO.getMessage(), card.getPan());
 
+    }
+
+    @Override
+    public ResponseCardDto getCard(String pan) {
+        Card card = cardRepository.findByPan(pan)
+                .orElseThrow(() -> new CardNotFoundException(MessageResponse.TARJETA_NO_EXISTE.getMessage(), pan));
+        return CardUtils.buildResponseCardDto(card);
+    }
+
+    @Override
+    public ResponseDto deleteCard(CardRequestDto cardRequestDto) {
+        Card card = cardRepository.findByPanAndCvv(cardRequestDto.getPan(), cardRequestDto.getCvv())
+                .orElseThrow(() -> new CardNotFoundException(MessageResponse.TARJETA_NO_ELIMINADA.getMessage()));
+        cardRepository.delete(card);
+        return CardUtils.buildResponseDto("00",MessageResponse.TARJETA_ELIMINADA.getMessage());
     }
 
 }

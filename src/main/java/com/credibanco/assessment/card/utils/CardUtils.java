@@ -2,6 +2,7 @@ package com.credibanco.assessment.card.utils;
 
 import com.credibanco.assessment.card.constants.StateCard;
 import com.credibanco.assessment.card.dto.CardCreateDto;
+import com.credibanco.assessment.card.dto.ResponseCardDto;
 import com.credibanco.assessment.card.dto.ResponseDto;
 import com.credibanco.assessment.card.model.Card;
 
@@ -48,7 +49,24 @@ public class CardUtils {
                 .build();
     }
 
+    public static ResponseDto buildResponseDto(String code, String message){
+        return ResponseDto.builder()
+                .code(code)
+                .message(message)
+                .build();
+    }
+
     private static String enmascararPan(String pan){
         return pan.substring(0, 6) + "********" + pan.substring(pan.length() - 4);
+    }
+
+    public static ResponseCardDto buildResponseCardDto(Card card) {
+        return ResponseCardDto.builder()
+                .pan(enmascararPan(card.getPan()))
+                .titular(card.getTitular())
+                .cedula(card.getCedula())
+                .telefono(card.getTelefono())
+                .estado(card.getEstado().getState())
+                .build();
     }
 }

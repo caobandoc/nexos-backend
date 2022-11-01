@@ -4,7 +4,9 @@ public enum MessageResponse {
     EXITO("Éxito"),
     FALLIDO("Fallido"),
     TARJETA_NO_EXISTE("La tarjeta no existe"),
-    VALIDACION_INVALIDA("Numero de validacion invalido");
+    VALIDACION_INVALIDA("Numero de validacion invalido"),
+    TARJETA_NO_ELIMINADA("No se ha eliminado la tarjeta"),
+    TARJETA_ELIMINADA("Se ha eliminado la tarjeta");
 
     private String message;
     MessageResponse(String fallido) {

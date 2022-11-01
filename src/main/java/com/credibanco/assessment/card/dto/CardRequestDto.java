@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public class CardEnroledDto {
+public class CardRequestDto {
     @NotNull
     @Size(min = 16, max = 19)
     @Pattern(regexp = "[0-9]+", message = "Numero de tarjeta invalido")

@@ -20,7 +20,12 @@ public class HandlerException {
 
     @ExceptionHandler(CardNotFoundException.class)
     public ResponseEntity<ResponseDto> cardNotFoundException(HttpServletRequest request, CardNotFoundException e) {
-        ResponseDto responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
+        ResponseDto responseDto;
+        if (e.getPan() != null) {
+            responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
+        }else{
+            responseDto = CardUtils.buildResponseDto("01", e.getMessage());
+        }
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface CardRepository extends JpaRepository<Card, Long> {
     boolean existsByPan(String pan);
     Optional<Card> findByPan(String pan);
+    Optional<Card> findByPanAndCvv(String pan, String cvv);
 }

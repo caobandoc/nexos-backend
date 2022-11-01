@@ -8,6 +8,10 @@ public class CardNotFoundException extends RuntimeException {
         this.pan = pan;
     }
 
+    public CardNotFoundException(String message) {
+        super(message);
+    }
+
     public String getPan() {
         return pan;
     }
