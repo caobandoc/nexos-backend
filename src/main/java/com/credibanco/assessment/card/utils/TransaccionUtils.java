@@ -1,11 +1,14 @@
 package com.credibanco.assessment.card.utils;
 
 import com.credibanco.assessment.card.constants.StateTransaction;
+import com.credibanco.assessment.card.dto.ListTransResponseDto;
 import com.credibanco.assessment.card.dto.TransaccionDto;
 import com.credibanco.assessment.card.model.Card;
 import com.credibanco.assessment.card.model.Transaction;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TransaccionUtils {
 
@@ -18,8 +21,8 @@ public class TransaccionUtils {
                 .referencia(transaccionDto.getReferencia())
                 .valor(transaccionDto.getValor())
                 .tarjeta(card)
-                .created(new Date())
-                .state(StateTransaction.APROBADA)
+                .creado(new Date())
+                .estado(StateTransaction.APROBADA)
                 .build();
     }
 
@@ -28,8 +31,8 @@ public class TransaccionUtils {
                 .referencia(transaccionDto.getReferencia())
                 .valor(transaccionDto.getValor())
                 .tarjeta(card)
-                .created(new Date())
-                .state(StateTransaction.RECHAZADA)
+                .creado(new Date())
+                .estado(StateTransaction.RECHAZADA)
                 .build();
     }
 
@@ -38,5 +41,14 @@ public class TransaccionUtils {
         long diferencia = fechaActual.getTime() - date.getTime();
         long minutos = (diferencia / 1000) / 60;
         return minutos < 5;
+    }
+
+    public static List<ListTransResponseDto> buildTransResponseDto(List<Transaction> byCard) {
+        return byCard.stream().map(transaction -> ListTransResponseDto.builder()
+                .referencia(transaction.getReferencia())
+                .valor(transaction.getValor())
+                .creado(transaction.getCreado())
+                .estado(transaction.getEstado().name())
+                .build()).collect(Collectors.toList());
     }
 }

@@ -31,7 +31,7 @@ public class HandlerException {
         }else{
             responseDto = ResponseUtil.buildResponseDto(NOT_FOUND, e.getMessage());
         }
-        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidCVVException.class)
@@ -49,7 +49,7 @@ public class HandlerException {
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<ResponseTranDto> transactionNotFoundException(HttpServletRequest request, TransactionNotFoundException e) {
         ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto(NOT_FOUND, e.getMessage(), e.getReference());
-        return new ResponseEntity<>(responseTranDto, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseTranDto, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(TransactionNotCancelException.class)

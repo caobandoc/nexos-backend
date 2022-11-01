@@ -24,7 +24,7 @@ public class Transaction {
     @ManyToOne
     private Card tarjeta;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date created;
-    private StateTransaction state;
+    private Date creado;
+    private StateTransaction estado;
 
 }
