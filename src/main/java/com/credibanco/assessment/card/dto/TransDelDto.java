@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public class TransaccionDto {
+public class TransDelDto {
     @NotNull
     @JsonProperty("PAN")
     private String pan;
@@ -18,7 +18,4 @@ public class TransaccionDto {
     private String referencia;
     @NotNull
     private Double valor;
-    @NotNull
-    private String direccion;
-
 }

@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class HandlerException {
 
+    public static final String NOT_FOUND = "01";
+    public static final String ERROR = "02";
+
     @ExceptionHandler(CardFoundException.class)
     public ResponseEntity<ResponseDto> cardFoundException(HttpServletRequest request, CardFoundException e) {
-        ResponseDto responseDto = ResponseUtil.buildResponseDto("01", e.getMessage(), e.getPan());
+        ResponseDto responseDto = ResponseUtil.buildResponseDto(NOT_FOUND, e.getMessage(), e.getPan());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
@@ -24,22 +27,34 @@ public class HandlerException {
     public ResponseEntity<ResponseDto> cardNotFoundException(HttpServletRequest request, CardNotFoundException e) {
         ResponseDto responseDto;
         if (e.getPan() != null) {
-            responseDto = ResponseUtil.buildResponseDto("01", e.getMessage(), e.getPan());
+            responseDto = ResponseUtil.buildResponseDto(NOT_FOUND, e.getMessage(), e.getPan());
         }else{
-            responseDto = ResponseUtil.buildResponseDto("01", e.getMessage());
+            responseDto = ResponseUtil.buildResponseDto(NOT_FOUND, e.getMessage());
         }
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidCVVException.class)
     public ResponseEntity<ResponseDto> invalidCVVException(HttpServletRequest request, InvalidCVVException e) {
-        ResponseDto responseDto = ResponseUtil.buildResponseDto("02", e.getMessage(), e.getPan());
+        ResponseDto responseDto = ResponseUtil.buildResponseDto(ERROR, e.getMessage(), e.getPan());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CardNotEnroledException.class)
     public ResponseEntity<ResponseTranDto> cardNotEnroledException(HttpServletRequest request, CardNotEnroledException e) {
-        ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto("02", e.getMessage(), StateTransaction.RECHAZADA.getState(), e.getReference());
+        ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto(ERROR, e.getMessage(), StateTransaction.RECHAZADA.getState(), e.getReference());
+        return new ResponseEntity<>(responseTranDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TransactionNotFoundException.class)
+    public ResponseEntity<ResponseTranDto> transactionNotFoundException(HttpServletRequest request, TransactionNotFoundException e) {
+        ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto(NOT_FOUND, e.getMessage(), e.getReference());
+        return new ResponseEntity<>(responseTranDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TransactionNotCancelException.class)
+    public ResponseEntity<ResponseTranDto> transactionNotCancelException(HttpServletRequest request, TransactionNotCancelException e) {
+        ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto(ERROR, e.getMessage(), e.getReference());
         return new ResponseEntity<>(responseTranDto, HttpStatus.BAD_REQUEST);
     }
 }

@@ -8,7 +8,10 @@ public enum MessageResponse {
     TARJETA_NO_ELIMINADA("No se ha eliminado la tarjeta"),
     TARJETA_ELIMINADA("Se ha eliminado la tarjeta"),
     COMPRA_EXITOSA("Compra exitosa"),
-    TARJETA_NO_ENROLADA("Tarjeta no enrolada");
+    TARJETA_NO_ENROLADA("Tarjeta no enrolada"),
+    COMPRA_ANULADA("Compra anulada"),
+    NUMERO_REFERENCIA_INVALIDO("Numero de referencia invalido"),
+    NO_ANULAR_TRANSACCION("No se puede anular la transaccion");
 
     private String message;
     MessageResponse(String fallido) {

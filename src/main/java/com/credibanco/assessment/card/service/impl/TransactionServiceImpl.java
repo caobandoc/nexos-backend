@@ -4,10 +4,14 @@ import com.credibanco.assessment.card.constants.MessageResponse;
 import com.credibanco.assessment.card.constants.StateCard;
 import com.credibanco.assessment.card.constants.StateTransaction;
 import com.credibanco.assessment.card.dto.ResponseTranDto;
+import com.credibanco.assessment.card.dto.TransDelDto;
 import com.credibanco.assessment.card.dto.TransaccionDto;
 import com.credibanco.assessment.card.exceptions.CardNotEnroledException;
 import com.credibanco.assessment.card.exceptions.CardNotFoundException;
+import com.credibanco.assessment.card.exceptions.TransactionNotCancelException;
+import com.credibanco.assessment.card.exceptions.TransactionNotFoundException;
 import com.credibanco.assessment.card.model.Card;
+import com.credibanco.assessment.card.model.Transaction;
 import com.credibanco.assessment.card.repository.CardRepository;
 import com.credibanco.assessment.card.repository.TransactionRepository;
 import com.credibanco.assessment.card.service.TransactionService;
@@ -32,6 +36,19 @@ public class TransactionServiceImpl implements TransactionService {
         }else{
             transactionRepository.save(TransaccionUtils.buildTransaccionFail(transaccionDto, card));
             throw new CardNotEnroledException(MessageResponse.TARJETA_NO_ENROLADA.getMessage(), transaccionDto.getReferencia());
+        }
+    }
+
+    @Override
+    public ResponseTranDto deleteTransaction(TransDelDto transDelDto) {
+        Transaction transaction = transactionRepository.findByReferencia(transDelDto.getReferencia())
+                .orElseThrow(() -> new TransactionNotFoundException(MessageResponse.NUMERO_REFERENCIA_INVALIDO.getMessage(), transDelDto.getReferencia()));
+        // si no han pasado 5 minutos de la creacion de la transaccion puede ser cancelada
+        if(TransaccionUtils.validateTimeTransaction(transaction.getCreated())) {
+            transactionRepository.delete(transaction);
+            return ResponseUtil.buildResponseTranDto("00", MessageResponse.COMPRA_ANULADA.getMessage(), transDelDto.getReferencia());
+        }else{
+            throw new TransactionNotCancelException(MessageResponse.NUMERO_REFERENCIA_INVALIDO.getMessage(), transDelDto.getReferencia());
         }
     }
 }

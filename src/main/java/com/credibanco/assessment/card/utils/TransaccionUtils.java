@@ -32,4 +32,11 @@ public class TransaccionUtils {
                 .state(StateTransaction.RECHAZADA)
                 .build();
     }
+
+    public static boolean validateTimeTransaction(Date date) {
+        Date fechaActual = new Date(System.currentTimeMillis());
+        long diferencia = fechaActual.getTime() - date.getTime();
+        long minutos = (diferencia / 1000) / 60;
+        return minutos < 5;
+    }
 }

@@ -40,4 +40,12 @@ public class ResponseUtil {
                 .reference(reference)
                 .build();
     }
+
+    public static ResponseTranDto buildResponseTranDto(String code, String message, String reference){
+        return ResponseTranDto.builder()
+                .code(code)
+                .message(message)
+                .reference(reference)
+                .build();
+    }
 }

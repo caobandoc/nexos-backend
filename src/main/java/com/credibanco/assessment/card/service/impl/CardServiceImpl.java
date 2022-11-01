@@ -9,7 +9,6 @@ import com.credibanco.assessment.card.exceptions.InvalidCVVException;
 import com.credibanco.assessment.card.model.Card;
 import com.credibanco.assessment.card.repository.CardRepository;
 import com.credibanco.assessment.card.service.CardService;
-import com.credibanco.assessment.card.service.TransactionService;
 import com.credibanco.assessment.card.utils.CardUtils;
 import com.credibanco.assessment.card.utils.ResponseUtil;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 public class CardServiceImpl implements CardService {
 
     private CardRepository cardRepository;
-    private TransactionService transactionService;
     @Override
     public ResponseDto createCard(CardCreateDto cardCreateDto) {
         Card newCard = CardUtils.mappingNewCard(cardCreateDto);
