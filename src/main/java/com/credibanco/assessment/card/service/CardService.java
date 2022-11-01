@@ -1,9 +1,6 @@
 package com.credibanco.assessment.card.service;
 
-import com.credibanco.assessment.card.dto.CardCreateDto;
-import com.credibanco.assessment.card.dto.CardRequestDto;
-import com.credibanco.assessment.card.dto.ResponseCardDto;
-import com.credibanco.assessment.card.dto.ResponseDto;
+import com.credibanco.assessment.card.dto.*;
 
 public interface CardService {
     ResponseDto createCard(CardCreateDto cardCreateDto);
@@ -14,4 +11,5 @@ public interface CardService {
     ResponseCardDto getCard(String pan);
 
     ResponseDto deleteCard(CardRequestDto cardRequestDto);
+
 }

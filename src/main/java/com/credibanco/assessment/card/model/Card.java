@@ -5,8 +5,10 @@ import com.credibanco.assessment.card.constants.TypeCard;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "cards")
 @Getter
 @Setter
 @Builder
@@ -24,5 +26,6 @@ public class Card {
     private String telefono;
     private String cvv;
     private StateCard estado;
-
+    @OneToMany(mappedBy = "tarjeta", cascade = CascadeType.ALL)
+    private List<Transaction> transacciones;
 }

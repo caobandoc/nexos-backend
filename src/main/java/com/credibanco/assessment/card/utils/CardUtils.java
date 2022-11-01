@@ -3,13 +3,19 @@ package com.credibanco.assessment.card.utils;
 import com.credibanco.assessment.card.constants.StateCard;
 import com.credibanco.assessment.card.dto.CardCreateDto;
 import com.credibanco.assessment.card.dto.ResponseCardDto;
-import com.credibanco.assessment.card.dto.ResponseDto;
 import com.credibanco.assessment.card.model.Card;
+
+import java.security.SecureRandom;
+import java.util.Random;
 
 public class CardUtils {
 
+    private CardUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Card mappingNewCard(CardCreateDto cardCreateDto) {
-        Card newCard = Card.builder()
+        return Card.builder()
                 .pan(cardCreateDto.getPan())
                 .titular(cardCreateDto.getTitular())
                 .cedula(cardCreateDto.getCedula())
@@ -18,46 +24,23 @@ public class CardUtils {
                 .cvv(generateCvv())
                 .estado(StateCard.CREADA)
                 .build();
-        return newCard;
 
     }
 
     private static String generateCvv(){
-        int numero = (int) (Math.random() * 999) + 1;
-        String cvv = String.valueOf(numero);
-        while (cvv.length() < 3) {
-            cvv = "0" + cvv;
+        Random random = new SecureRandom();
+        int numero = random.nextInt(999);
+        return String.format("%03d", numero);
+    }
+
+    static String enmascararPan(String pan){
+        StringBuilder panEnmascarado = new StringBuilder();
+        panEnmascarado.append(pan, 0, 6);
+        for (int i = 0; i < pan.length() - 10; i++) {
+            panEnmascarado.append("*");
         }
-        return cvv;
-
-    }
-
-    public static ResponseDto buildResponseDto(String code, String message, String cvv, String pan){
-        return ResponseDto.builder()
-                .code(code)
-                .message(message)
-                .cvv(cvv)
-                .pan(enmascararPan(pan))
-                .build();
-    }
-
-    public static ResponseDto buildResponseDto(String code, String message, String pan){
-        return ResponseDto.builder()
-                .code(code)
-                .message(message)
-                .pan(enmascararPan(pan))
-                .build();
-    }
-
-    public static ResponseDto buildResponseDto(String code, String message){
-        return ResponseDto.builder()
-                .code(code)
-                .message(message)
-                .build();
-    }
-
-    private static String enmascararPan(String pan){
-        return pan.substring(0, 6) + "********" + pan.substring(pan.length() - 4);
+        panEnmascarado.append(pan.substring(pan.length() - 4));
+        return panEnmascarado.toString();
     }
 
     public static ResponseCardDto buildResponseCardDto(Card card) {

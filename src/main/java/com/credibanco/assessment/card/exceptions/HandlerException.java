@@ -1,7 +1,9 @@
 package com.credibanco.assessment.card.exceptions;
 
+import com.credibanco.assessment.card.constants.StateTransaction;
 import com.credibanco.assessment.card.dto.ResponseDto;
-import com.credibanco.assessment.card.utils.CardUtils;
+import com.credibanco.assessment.card.dto.ResponseTranDto;
+import com.credibanco.assessment.card.utils.ResponseUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +16,7 @@ public class HandlerException {
 
     @ExceptionHandler(CardFoundException.class)
     public ResponseEntity<ResponseDto> cardFoundException(HttpServletRequest request, CardFoundException e) {
-        ResponseDto responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
+        ResponseDto responseDto = ResponseUtil.buildResponseDto("01", e.getMessage(), e.getPan());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
@@ -22,16 +24,22 @@ public class HandlerException {
     public ResponseEntity<ResponseDto> cardNotFoundException(HttpServletRequest request, CardNotFoundException e) {
         ResponseDto responseDto;
         if (e.getPan() != null) {
-            responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
+            responseDto = ResponseUtil.buildResponseDto("01", e.getMessage(), e.getPan());
         }else{
-            responseDto = CardUtils.buildResponseDto("01", e.getMessage());
+            responseDto = ResponseUtil.buildResponseDto("01", e.getMessage());
         }
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidCVVException.class)
     public ResponseEntity<ResponseDto> invalidCVVException(HttpServletRequest request, InvalidCVVException e) {
-        ResponseDto responseDto = CardUtils.buildResponseDto("02", e.getMessage(), e.getPan());
+        ResponseDto responseDto = ResponseUtil.buildResponseDto("02", e.getMessage(), e.getPan());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CardNotEnroledException.class)
+    public ResponseEntity<ResponseTranDto> cardNotEnroledException(HttpServletRequest request, CardNotEnroledException e) {
+        ResponseTranDto responseTranDto = ResponseUtil.buildResponseTranDto("02", e.getMessage(), StateTransaction.RECHAZADA.getState(), e.getReference());
+        return new ResponseEntity<>(responseTranDto, HttpStatus.BAD_REQUEST);
     }
 }

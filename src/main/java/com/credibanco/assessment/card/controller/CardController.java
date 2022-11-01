@@ -1,9 +1,6 @@
 package com.credibanco.assessment.card.controller;
 
-import com.credibanco.assessment.card.dto.CardCreateDto;
-import com.credibanco.assessment.card.dto.CardRequestDto;
-import com.credibanco.assessment.card.dto.ResponseCardDto;
-import com.credibanco.assessment.card.dto.ResponseDto;
+import com.credibanco.assessment.card.dto.*;
 import com.credibanco.assessment.card.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +34,7 @@ public class CardController {
     public ResponseEntity<ResponseDto> deleteCard(@Valid @RequestBody CardRequestDto cardRequestDto) {
         return ResponseEntity.ok(cardService.deleteCard(cardRequestDto));
     }
+
+
 
 }
