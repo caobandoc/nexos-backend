@@ -2,7 +2,9 @@ package com.credibanco.assessment.card.constants;
 
 public enum MessageResponse {
     EXITO("Éxito"),
-    FALLIDO("Fallido");
+    FALLIDO("Fallido"),
+    TARJETA_NO_EXISTE("La tarjeta no existe"),
+    VALIDACION_INVALIDA("Numero de validacion invalido");
 
     private String message;
     MessageResponse(String fallido) {

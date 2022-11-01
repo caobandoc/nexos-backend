@@ -17,4 +17,16 @@ public class HandlerException {
         ResponseDto responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CardNotFoundException.class)
+    public ResponseEntity<ResponseDto> cardNotFoundException(HttpServletRequest request, CardNotFoundException e) {
+        ResponseDto responseDto = CardUtils.buildResponseDto("01", e.getMessage(), e.getPan());
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCVVException.class)
+    public ResponseEntity<ResponseDto> invalidCVVException(HttpServletRequest request, InvalidCVVException e) {
+        ResponseDto responseDto = CardUtils.buildResponseDto("02", e.getMessage(), e.getPan());
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -36,7 +36,7 @@ public class CardUtils {
                 .code(code)
                 .message(message)
                 .cvv(cvv)
-                .pan(pan)
+                .pan(enmascararPan(pan))
                 .build();
     }
 
@@ -44,11 +44,11 @@ public class CardUtils {
         return ResponseDto.builder()
                 .code(code)
                 .message(message)
-                .pan(pan)
+                .pan(enmascararPan(pan))
                 .build();
     }
 
-    public static String enmascararPan(String pan){
+    private static String enmascararPan(String pan){
         return pan.substring(0, 6) + "********" + pan.substring(pan.length() - 4);
     }
 }

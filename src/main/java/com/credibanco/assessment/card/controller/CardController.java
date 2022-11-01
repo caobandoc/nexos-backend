@@ -1,6 +1,7 @@
 package com.credibanco.assessment.card.controller;
 
 import com.credibanco.assessment.card.dto.CardCreateDto;
+import com.credibanco.assessment.card.dto.CardEnroledDto;
 import com.credibanco.assessment.card.dto.ResponseDto;
 import com.credibanco.assessment.card.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,10 @@ public class CardController {
     public ResponseEntity<ResponseDto> createCard(@Valid @RequestBody CardCreateDto cardCreateDto) {
         return ResponseEntity.ok(cardService.createCard(cardCreateDto));
     }
+
+    @PutMapping
+    public ResponseEntity<ResponseDto> enroledCard(@Valid @RequestBody CardEnroledDto cardEnroledDto) {
+        return ResponseEntity.ok(cardService.enroledCard(cardEnroledDto));
+    }
+
 }
