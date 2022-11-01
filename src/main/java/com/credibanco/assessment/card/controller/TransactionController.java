@@ -26,7 +26,7 @@ public class TransactionController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ResponseTranDto> createTransactionCard(@Valid @RequestBody TransDelDto transDelDto) {
+    public ResponseEntity<ResponseTranDto> deleteTransactionCard(@Valid @RequestBody TransDelDto transDelDto) {
         return ResponseEntity.ok(transactionService.deleteTransaction(transDelDto));
     }
 

@@ -21,7 +21,7 @@ public class CardController {
         return new ResponseEntity<>(cardService.createCard(cardCreateDto), HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<ResponseDto> enroledCard(@Valid @RequestBody CardRequestDto cardRequestDto) {
         return ResponseEntity.ok(cardService.enroledCard(cardRequestDto));
     }
